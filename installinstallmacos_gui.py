@@ -1091,6 +1091,8 @@ def get_arguments():
                         "when installing macOS. Dangerous!")
     parser.add_argument("--caching-server",
                         help="Specify a caching server (optional)")
+    parser.add_argument("--installer-only", default=False,
+                        help="Only create the installer.")
 
     # Skip unknown arguments.
     arguments, _ = parser.parse_known_args()
