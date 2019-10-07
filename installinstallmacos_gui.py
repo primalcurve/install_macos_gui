@@ -1160,7 +1160,7 @@ def install_macos(arguments, script_thread):
         logger.debug("Checking for caching server.")
         arguments.caching_server = discover_caching_server()
 
-    logger.debug("caaaccchheee: " + arguments.caching_server)
+    logger.debug("Cahing Server: " + arguments.caching_server)
 
     # Download all the packages for the selected product.
     logger.debug("Replicating Selected Product.")
@@ -1177,6 +1177,10 @@ def install_macos(arguments, script_thread):
     logger.log(
         OLVL, "Installer downloaded and staged in Applications folder...")
     script_thread.overall_progress(progress_percent(15))
+
+    if arguments.installer_only:
+        logger.log(OLVL, "Done!")
+        script_thread.end_application()
 
     # Now we install macOS.
     installer.launch_osinstall()
