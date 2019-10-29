@@ -29,9 +29,26 @@ empty disk image"""
 # Remove any other detected paths to prevent issues with incompatible versions
 # of PyObjC.
 import sys
-for index, path in enumerate(sys.path):
-    if path[1:6] == "Users" or path[1:8] == "Library":
-        sys.path.pop(index)
+sys.path = [p for p in sys.path if p[1:6] != "Users" and p[1:8] != "Library"]
+# Make sure sys.path includes the necessary paths to import the various
+# modules needed for this script.
+PYTHON_FRAMEWORK = (
+    "/System/Library/Frameworks/Python.framework/Versions/2.7/")
+PYTHON_FRAMEWORK_PATHS = [
+    PYTHON_FRAMEWORK + "lib/python27.zip",
+    PYTHON_FRAMEWORK + "lib/python2.7",
+    PYTHON_FRAMEWORK + "lib/python2.7/plat-darwin",
+    PYTHON_FRAMEWORK + "lib/python2.7/plat-mac",
+    PYTHON_FRAMEWORK + "lib/python2.7/plat-mac/lib-scriptpackages",
+    PYTHON_FRAMEWORK + "lib/python2.7/lib-tk",
+    PYTHON_FRAMEWORK + "lib/python2.7/lib-old",
+    PYTHON_FRAMEWORK + "lib/python2.7/lib-dynload",
+    PYTHON_FRAMEWORK + "Extras/lib/python",
+    PYTHON_FRAMEWORK + "Extras/lib/python/PyObjC"
+]
+for path in PYTHON_FRAMEWORK_PATHS:
+    if path not in sys.path:
+        sys.path.append(path)
 
 import argparse
 import json
